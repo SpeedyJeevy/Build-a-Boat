@@ -47,5 +47,8 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
+		
+	# Water touching logic
+	if is_on_floor() and 
+	
 	move_and_slide()
