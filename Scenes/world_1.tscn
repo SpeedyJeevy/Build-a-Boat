@@ -1,5 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://b20hckk2j0msd"]
+[gd_scene load_steps=16 format=3 uid="uid://b20hckk2j0msd"]
 
+[ext_resource type="Script" uid="uid://bwpy4whef2q11" path="res://Scenes/area_3d.gd" id="1_brd3p"]
 [ext_resource type="Script" uid="uid://bg2lnhwfrjje8" path="res://Scripts/player.gd" id="1_nsk3r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nsk3r"]
@@ -68,14 +69,15 @@ surface_material_override/0 = SubResource("StandardMaterial3D_brd3p")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
 shape = SubResource("BoxShape3D_e5alk")
 
-[node name="Area3D" type="Area3D" parent="Water"]
+[node name="Area3D" type="Area3D" parent="Water" groups=["water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+script = ExtResource("1_brd3p")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/Area3D" groups=["water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_nsk3r")
 
-[node name="Player" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="." groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.722527, 0)
 script = ExtResource("1_nsk3r")
 
@@ -100,3 +102,5 @@ transform = Transform3D(1, 0, 0, 0, 0.9699231, 0.24341181, 0, -0.24341181, 0.969
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.70710677, 0.1227878, -0.6963642, 0, 0.9848077, 0.17364818, 0.70710677, 0.1227878, -0.6963642, -33.427906, 2.5461152, -38.620598)
+
+[connection signal="body_entered" from="Water/Area3D" to="Water/Area3D" method="_on_body_entered"]

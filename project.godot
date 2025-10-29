@@ -14,6 +14,10 @@ config/name="Build a Boat EXTREME"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+player=""
+
 [input]
 
 ui_left={
