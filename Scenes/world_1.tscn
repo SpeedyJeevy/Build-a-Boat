@@ -1,7 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://b20hckk2j0msd"]
+[gd_scene load_steps=26 format=3 uid="uid://b20hckk2j0msd"]
 
-[ext_resource type="Script" uid="uid://bwpy4whef2q11" path="res://Scenes/area_3d.gd" id="1_brd3p"]
+[ext_resource type="Script" uid="uid://bwpy4whef2q11" path="res://Scripts/water_area.gd" id="1_brd3p"]
 [ext_resource type="Script" uid="uid://bg2lnhwfrjje8" path="res://Scripts/player.gd" id="1_nsk3r"]
+[ext_resource type="Script" uid="uid://bev1xwe6wx8vg" path="res://Scripts/test_block.gd" id="3_ax6sa"]
+[ext_resource type="Script" uid="uid://co5cvyhpyw23c" path="res://Scripts/test_chair.gd" id="4_d4kua"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nsk3r"]
 sky_top_color = Color(0.19607843, 0.90588236, 1, 1)
@@ -31,7 +33,7 @@ size = Vector3(50, 1, 50)
 albedo_color = Color(0, 1, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nsk3r"]
-size = Vector3(50, 1, 50)
+size = Vector3(50, 0.25, 50)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vigqh"]
 
@@ -42,6 +44,40 @@ albedo_color = Color(0, 0.7131188, 0.36542714, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_nsk3r"]
 radius = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_brd3p"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ax6sa"]
+size = Vector3(1, 0.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ax6sa"]
+size = Vector3(1, 0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d4kua"]
+albedo_color = Color(0.61843055, 0.1732918, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_d4kua"]
+script/source = "extends Area3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d4kua"]
+size = Vector3(5, 5, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_12jk7"]
+size = Vector3(5, 10, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wyo6c"]
+size = Vector3(5, 10, 5)
 
 [node name="World 1" type="Node3D"]
 
@@ -69,16 +105,16 @@ surface_material_override/0 = SubResource("StandardMaterial3D_brd3p")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
 shape = SubResource("BoxShape3D_e5alk")
 
-[node name="Area3D" type="Area3D" parent="Water" groups=["water"]]
+[node name="WaterArea" type="Area3D" parent="Water" groups=["water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
 script = ExtResource("1_brd3p")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/Area3D" groups=["water"]]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/WaterArea" groups=["water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_nsk3r")
 
 [node name="Player" type="CharacterBody3D" parent="." groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.722527, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.973772, 6.687216, 5.296829)
 script = ExtResource("1_nsk3r")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
@@ -103,4 +139,73 @@ transform = Transform3D(1, 0, 0, 0, 0.9699231, 0.24341181, 0, -0.24341181, 0.969
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.70710677, 0.1227878, -0.6963642, 0, 0.9848077, 0.17364818, 0.70710677, 0.1227878, -0.6963642, -33.427906, 2.5461152, -38.620598)
 
-[connection signal="body_entered" from="Water/Area3D" to="Water/Area3D" method="_on_body_entered"]
+[node name="TestBlock" type="RigidBody3D" parent="." groups=["Blocks"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 6, 0)
+script = ExtResource("3_ax6sa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBlock"]
+mesh = SubResource("BoxMesh_brd3p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBlock"]
+shape = SubResource("BoxShape3D_ax6sa")
+
+[node name="TestBlock2" type="RigidBody3D" parent="." groups=["Blocks"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 6, 0)
+script = ExtResource("3_ax6sa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBlock2"]
+mesh = SubResource("BoxMesh_brd3p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBlock2"]
+shape = SubResource("BoxShape3D_ax6sa")
+
+[node name="TestBlock3" type="RigidBody3D" parent="." groups=["Blocks"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 6, 1)
+script = ExtResource("3_ax6sa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBlock3"]
+mesh = SubResource("BoxMesh_brd3p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBlock3"]
+shape = SubResource("BoxShape3D_ax6sa")
+
+[node name="TestBlock4" type="RigidBody3D" parent="." groups=["Blocks"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 6, 1)
+script = ExtResource("3_ax6sa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBlock4"]
+mesh = SubResource("BoxMesh_brd3p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBlock4"]
+shape = SubResource("BoxShape3D_ax6sa")
+
+[node name="TestChair" type="RigidBody3D" parent="." groups=["Blocks"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 6.75, 0.5)
+script = ExtResource("4_d4kua")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestChair"]
+shape = SubResource("BoxShape3D_ax6sa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestChair"]
+mesh = SubResource("BoxMesh_ax6sa")
+surface_material_override/0 = SubResource("StandardMaterial3D_d4kua")
+
+[node name="ChairArea" type="Area3D" parent="TestChair"]
+script = SubResource("GDScript_d4kua")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestChair/ChairArea"]
+shape = SubResource("BoxShape3D_d4kua")
+
+[node name="TestObstacle" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5729186, 0.81961226, 0, -0.81961226, 0.5729186, 59.503254, 1.9612637, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacle"]
+shape = SubResource("BoxShape3D_12jk7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacle"]
+mesh = SubResource("BoxMesh_wyo6c")
+
+[connection signal="body_entered" from="Water/WaterArea" to="Water/WaterArea" method="_on_body_entered"]
+[connection signal="body_exited" from="Water/WaterArea" to="Water/WaterArea" method="_on_body_exited"]
+[connection signal="body_entered" from="TestChair/ChairArea" to="Water/WaterArea" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="TestChair/ChairArea" to="Water/WaterArea" method="_on_chair_area_body_entered"]

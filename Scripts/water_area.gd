@@ -10,5 +10,10 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_body_entered(body: Node3D) -> void:
-	if body.is_in_group("player"):
-		pass
+	if body.is_in_group("player") or body.is_in_group("Blocks"):
+		body.enterWater()
+
+
+func _on_body_exited(body: Node3D) -> void:
+	if body.is_in_group("player") or body.is_in_group("Blocks"):
+		body.exitWater()
