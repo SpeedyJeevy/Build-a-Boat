@@ -3,12 +3,13 @@ extends RigidBody3D
 @onready var sitting = false
 @onready var player = null
 @onready var inWater = false
-@onready var waterFlowVel = Vector3(1.0, 0.0, 0.0)
+@onready var waterFlowVel = Vector3(2.0, 0.0, 0.0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$ChairArea.body_entered.connect(_on_body_entered)
 	$ChairArea.body_exited.connect(_on_body_exited)
+	
 
 # Player near chair
 func _on_body_entered(body):
