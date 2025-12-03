@@ -4,6 +4,7 @@ extends CharacterBody3D
 @onready var CamRotation : Vector2 = Vector2(0.0, 0.0)
 @onready var sensitivity = 0.01
 @onready var inWater = false
+@onready var hit = false
 
 # Going down the list...
 @onready var camera = $Node3D
@@ -64,3 +65,9 @@ func enterWater():
 	inWater = true
 func exitWater():
 	inWater = false
+
+# Hitting a damaging object function
+func hitObject():
+	hit = true
+func exitObject():
+	hit = false

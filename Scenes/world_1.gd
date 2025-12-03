@@ -3,6 +3,9 @@ extends Node3D
 # Water Areas
 var basicAreaScene = preload("res://Scenes/Water_Areas/basic_area.tscn")
 
+# Types of blocks
+@onready var block = preload("res://Scenes/Blocks/block.tscn")
+
 @onready var numAreas = 10 # Change to make more areas spawn
 @onready var areaList = []
 
@@ -13,7 +16,6 @@ func _ready() -> void:
 		# Sets up newArea
 		var newArea = basicAreaScene.instantiate()
 		
-		
 		# Adds newArea to the areaList
 		areaList.append(newArea)
 		
@@ -22,6 +24,25 @@ func _ready() -> void:
 		
 		# Makes newArea a child of the scene
 		add_child(newArea)
+		
+	# Temporary Block adding
+	var x = -1
+	var z = 0
+	for i in range(30):
+		var newBlock = block.instantiate()
+		if i % 3 == 0:
+			x += 1
+		else:
+			if z == 1:
+				z = 2
+			elif z == 2:
+				z = 0
+			else:
+				z = 1
+			
+		newBlock.position = Vector3(25 + x, 6.75, 0 + z)
+		
+		add_child(newBlock)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

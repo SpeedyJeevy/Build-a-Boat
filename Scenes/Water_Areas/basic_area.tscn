@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://584jurur1471"]
 
-[ext_resource type="Script" uid="uid://bluyjt2e8orxu" path="res://Scenes/Water_Areas/area.gd" id="1_esurj"]
+[ext_resource type="Script" uid="uid://bluyjt2e8orxu" path="res://Scripts/area.gd" id="1_esurj"]
 [ext_resource type="Script" uid="uid://bwpy4whef2q11" path="res://Scripts/water_area.gd" id="1_l7jxv"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_esurj"]
@@ -41,7 +41,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
 shape = SubResource("BoxShape3D_751tr")
 
 [node name="WaterArea" type="Area3D" parent="Water" groups=["water"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -0.25, 0)
 script = ExtResource("1_l7jxv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Water/WaterArea" groups=["water"]]

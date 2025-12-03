@@ -1,8 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://b20hckk2j0msd"]
+[gd_scene load_steps=19 format=3 uid="uid://b20hckk2j0msd"]
 
 [ext_resource type="Script" uid="uid://p8acpf3twv13" path="res://Scenes/world_1.gd" id="1_d4kua"]
 [ext_resource type="Script" uid="uid://bg2lnhwfrjje8" path="res://Scripts/player.gd" id="1_nsk3r"]
-[ext_resource type="Script" uid="uid://bev1xwe6wx8vg" path="res://Scripts/test_block.gd" id="3_ax6sa"]
 [ext_resource type="Script" uid="uid://co5cvyhpyw23c" path="res://Scripts/test_chair.gd" id="4_d4kua"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nsk3r"]
@@ -35,8 +34,6 @@ albedo_color = Color(0, 0.7131188, 0.36542714, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_nsk3r"]
 radius = 0.1
-
-[sub_resource type="BoxMesh" id="BoxMesh_brd3p"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ax6sa"]
 size = Vector3(1, 0.5, 1)
@@ -105,48 +102,8 @@ spring_length = 2.0
 [node name="Camera3D" type="Camera3D" parent="Player/Node3D/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 0.9699231, 0.24341181, 0, -0.24341181, 0.9699231, 0, 0, 0)
 
-[node name="TestBlock" type="RigidBody3D" parent="." groups=["Blocks"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 6, 0)
-script = ExtResource("3_ax6sa")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBlock"]
-mesh = SubResource("BoxMesh_brd3p")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBlock"]
-shape = SubResource("BoxShape3D_ax6sa")
-
-[node name="TestBlock2" type="RigidBody3D" parent="." groups=["Blocks"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 6, 0)
-script = ExtResource("3_ax6sa")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBlock2"]
-mesh = SubResource("BoxMesh_brd3p")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBlock2"]
-shape = SubResource("BoxShape3D_ax6sa")
-
-[node name="TestBlock3" type="RigidBody3D" parent="." groups=["Blocks"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 6, 1)
-script = ExtResource("3_ax6sa")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBlock3"]
-mesh = SubResource("BoxMesh_brd3p")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBlock3"]
-shape = SubResource("BoxShape3D_ax6sa")
-
-[node name="TestBlock4" type="RigidBody3D" parent="." groups=["Blocks"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 6, 1)
-script = ExtResource("3_ax6sa")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBlock4"]
-mesh = SubResource("BoxMesh_brd3p")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBlock4"]
-shape = SubResource("BoxShape3D_ax6sa")
-
 [node name="TestChair" type="RigidBody3D" parent="." groups=["Blocks"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 6.75, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 7.5, 1)
 script = ExtResource("4_d4kua")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TestChair"]
