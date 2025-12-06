@@ -3,14 +3,14 @@ extends RigidBody3D
 # Health - Hits the object can take
 # Endurance - Makes the block sturdier (in case I wanna have upgrades of sorts or health restore stuff)
 # Luck - Chance to not take damage (maybe create fun blocks with high luck but can only take 1 hit if unlucky)
-@onready var health = 5.0
-@onready var endurance = 1
-@onready var luck = 0
+@export var health = 5.0
+@export var endurance = 1
+@export var luck = 1
 
 @onready var hit = false
 @onready var inWater = false
 @onready var touchWater = 0
-@onready var waterFlowVel = Vector3(4.0, 0.0, 0.0)
+@onready var waterFlowVel = Vector3(6.0, 0.0, 0.0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -28,7 +28,9 @@ func _physics_process(delta: float) -> void:
 	
 	# Block touching logic
 	if hit:
-		health -= (1 / endurance)
+		# Luck logic:
+		if randf_range(0, 100) > luck:
+			health -= (1.0 / endurance)
 		
 
 # Interact with water function

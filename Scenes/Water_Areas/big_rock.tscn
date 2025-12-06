@@ -26,6 +26,7 @@ mesh = SubResource("BoxMesh_onb0f")
 
 [node name="BRArea" type="Area3D" parent="."]
 script = ExtResource("1_onb0f")
+health = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BRArea"]
 shape = SubResource("BoxShape3D_3pi7w")

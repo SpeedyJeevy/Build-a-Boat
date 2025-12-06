@@ -13,7 +13,7 @@ extends RigidBody3D
 @onready var hit = false
 @onready var inWater = false
 @onready var touchWater = 0
-@onready var waterFlowVel = Vector3(4.0, 0.0, 0.0)
+@onready var waterFlowVel = Vector3(6.0, 0.0, 0.0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

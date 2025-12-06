@@ -1,6 +1,6 @@
 extends Area3D
 
-@onready var health = 2
+@export var health = 2
 @onready var dying = false
 
 var contactList = []
