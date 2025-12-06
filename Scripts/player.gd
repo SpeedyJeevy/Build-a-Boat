@@ -4,6 +4,7 @@ extends CharacterBody3D
 @onready var CamRotation : Vector2 = Vector2(0.0, 0.0)
 @onready var sensitivity = 0.01
 @onready var inWater = false
+@onready var touchWater = 0
 @onready var hit = false
 
 # Going down the list...
@@ -62,9 +63,12 @@ func _physics_process(delta: float) -> void:
 
 # Interact with water function
 func enterWater():
+	touchWater += 1
 	inWater = true
 func exitWater():
-	inWater = false
+	touchWater -= 1
+	if touchWater <= 0:
+		inWater = false
 
 # Hitting a damaging object function
 func hitObject():

@@ -27,8 +27,13 @@ func _ready() -> void:
 		
 	# Temporary Block adding
 	var x = -1
+	var y = 0
 	var z = 0
-	for i in range(30):
+	for i in range(60):
+		if i == 30:
+			x = -1
+			y = 0
+			z = 0
 		var newBlock = block.instantiate()
 		if i % 3 == 0:
 			x += 1
@@ -40,7 +45,7 @@ func _ready() -> void:
 			else:
 				z = 1
 			
-		newBlock.position = Vector3(25 + x, 6.75, 0 + z)
+		newBlock.position = Vector3(25 + x, 6.75 - y, 0 + z)
 		
 		add_child(newBlock)
 

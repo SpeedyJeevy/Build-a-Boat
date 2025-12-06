@@ -9,7 +9,8 @@ extends RigidBody3D
 
 @onready var hit = false
 @onready var inWater = false
-@onready var waterFlowVel = Vector3(2.0, 0.0, 0.0)
+@onready var touchWater = 0
+@onready var waterFlowVel = Vector3(4.0, 0.0, 0.0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,10 +33,13 @@ func _physics_process(delta: float) -> void:
 
 # Interact with water function
 func enterWater():
+	touchWater += 1
 	inWater = true
 func exitWater():
-	inWater = false
-	linear_velocity = Vector3.ZERO
+	touchWater -= 1
+	if touchWater <= 0:
+		inWater = false
+		linear_velocity = Vector3.ZERO
 
 # Hitting a damaging object function
 func hitObject():
