@@ -16,14 +16,14 @@ func _ready() -> void:
 func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player") or body.is_in_group("Blocks"):
 		contactList.append(body)
-		
+		body.hitObject()
 		if contactList.size() == 1:
 			damage_timer.start()
 
 func _on_body_exited(body: Node3D) -> void:
 	if body.is_in_group("player") or body.is_in_group("Blocks"):
 		contactList.erase(body)
-		
+		body.exitObject()
 		if contactList.is_empty():
 			damage_timer.stop()
 
@@ -33,6 +33,7 @@ func _on_damage_timer_timeout() -> void:
 		damage()
 		if health <= 0:
 			get_parent().queue_free()
+		body.exitObject()
 
 func damage():
 	health -= 1

@@ -3,11 +3,13 @@ extends Node3D
 # Water Areas
 var basicAreaScene = preload("res://Scenes/Water_Areas/basic_area.tscn")
 var longAreaScene = preload("res://Scenes/Water_Areas/long_area.tscn")
+var poisonAreaScene = preload("res://Scenes/Water_Areas/poison_area.tscn")
 
 # Types of blocks
 @onready var block = preload("res://Scenes/Blocks/block.tscn")
 @onready var stoneBlock = preload("res://Scenes/Blocks/stone_block.tscn")
-@onready var concGreen = preload("res://Scenes/Blocks/green_concrete.tscn")
+@onready var luckyBlock = preload("res://Scenes/Blocks/lucky_block.tscn")
+@onready var obsidian = preload("res://Scenes/Blocks/obsidian.tscn")
 
 @onready var numAreas = 10 # Change to make more areas spawn
 @onready var areaList = []
@@ -18,10 +20,12 @@ var longAreaScene = preload("res://Scenes/Water_Areas/long_area.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for i in range(numAreas):
-		if nextArea < 50:
+		if nextArea < 33:
 			loadBasic()
-		elif nextArea < 100:
+		elif nextArea < 66:
 			loadLong()
+		else:
+			loadPoison()
 		nextArea = randi_range(1,100)
 		
 		
@@ -31,12 +35,13 @@ func _ready() -> void:
 	var z = 0
 	for i in range(60):
 		var newBlock
-		if i < 20:
-			newBlock = block.instantiate()
-		elif i < 40:
-			newBlock = stoneBlock.instantiate()
-		else:
-			newBlock = concGreen.instantiate()
+		newBlock = obsidian.instantiate()
+#		if i < 20:
+#			newBlock = block.instantiate()
+#		elif i < 40:
+#			newBlock = stoneBlock.instantiate()
+#		else:
+#			newBlock = luckyBlock.instantiate()
 		if i == 30:
 			x = -1
 			y = 0
@@ -90,4 +95,17 @@ func loadLong():
 	# Makes newArea a child of the scene
 	add_child(newArea)
 
-# EQUATION: ((width / 2) + 25) 
+func loadPoison():
+	# Sets up newArea
+	var newArea = poisonAreaScene.instantiate()
+	
+	# Adds newArea to the areaList
+	areaList.append(newArea)
+	
+	# Sets up the position of the newArea
+	areaSpacing = newArea.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.x
+	newArea.position = Vector3(((areaSpacing / 2) + 25) + totalSpace, 0, 0)
+	totalSpace += areaSpacing
+	
+	# Makes newArea a child of the scene
+	add_child(newArea)

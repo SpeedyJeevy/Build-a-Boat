@@ -15,6 +15,9 @@ extends RigidBody3D
 @onready var touchWater = 0
 @onready var waterFlowVel = Vector3(6.0, 0.0, 0.0)
 
+# Area Specific Variables
+@onready var poisoned = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$ChairArea.body_entered.connect(_on_body_entered)
@@ -73,3 +76,12 @@ func exitObject():
 func dies():
 	if health <= 0:
 		queue_free()
+
+# Poison functions
+func enterPoison():
+	poisoned = true
+func exitPoison():
+	poisoned = false
+func poisonTick():
+	if randf_range(0, 100) > luck:
+			health -= 1

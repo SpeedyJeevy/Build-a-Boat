@@ -32,7 +32,7 @@ size = Vector3(100, 35, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ie05"]
 size = Vector3(100, 35, 1)
 
-[node name="long_area" type="Node3D"]
+[node name="long_area" type="Node3D" groups=["hasRocks"]]
 script = ExtResource("1_66vqm")
 numLilRocks = 5
 numBigRocks = 15

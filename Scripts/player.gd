@@ -10,6 +10,9 @@ extends CharacterBody3D
 # Going down the list...
 @onready var camera = $Node3D
 
+# Area Specific Variables
+@onready var poisoned = false
+
 const SPEED = 5.0
 const JUMP_VELOCITY = 10
 
@@ -75,3 +78,11 @@ func hitObject():
 	hit = true
 func exitObject():
 	hit = false
+
+# Poison functions
+func enterPoison():
+	poisoned = true
+func exitPoison():
+	poisoned = false
+func poisonTick(): # CURRENTLY EMPTY
+	pass

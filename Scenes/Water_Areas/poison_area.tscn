@@ -1,76 +1,76 @@
-[gd_scene load_steps=12 format=3 uid="uid://584jurur1471"]
+[gd_scene load_steps=12 format=3 uid="uid://c3xbmjgrgj78e"]
 
-[ext_resource type="Script" uid="uid://bluyjt2e8orxu" path="res://Scripts/area.gd" id="1_esurj"]
-[ext_resource type="Script" uid="uid://bwpy4whef2q11" path="res://Scripts/water_area.gd" id="1_l7jxv"]
+[ext_resource type="Script" uid="uid://bluyjt2e8orxu" path="res://Scripts/area.gd" id="1_44pkh"]
+[ext_resource type="Script" uid="uid://bwpy4whef2q11" path="res://Scripts/water_area.gd" id="2_a3m0t"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2mnms"]
-albedo_color = Color(0, 1, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_44pkh"]
+albedo_color = Color(0, 1, 0, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_esurj"]
-material = SubResource("StandardMaterial3D_2mnms")
+[sub_resource type="BoxMesh" id="BoxMesh_44pkh"]
+material = SubResource("StandardMaterial3D_44pkh")
 size = Vector3(50, 1, 50)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_2mnms"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_a3m0t"]
 size = Vector3(50, 1, 50)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_751tr"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_liwdc"]
 size = Vector3(50, 0.25, 50)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_esurj"]
 albedo_color = Color(0.22600415, 0.1068775, 0.031405326, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_348mh"]
+[sub_resource type="BoxMesh" id="BoxMesh_41gmi"]
 material = SubResource("StandardMaterial3D_esurj")
 size = Vector3(50, 35, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_qww6o"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_obhmi"]
 size = Vector3(50, 35, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_wiq44"]
+[sub_resource type="BoxMesh" id="BoxMesh_a07oa"]
 material = SubResource("StandardMaterial3D_esurj")
 size = Vector3(50, 35, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_yeup3"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_jobx2"]
 size = Vector3(50, 35, 1)
 
-[node name="BasicArea" type="Node3D" groups=["hasRocks"]]
-script = ExtResource("1_esurj")
+[node name="PoisonArea" type="Node3D"]
+script = ExtResource("1_44pkh")
 numLilRocks = 15
 
 [node name="Water" type="StaticBody3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Water"]
-mesh = SubResource("BoxMesh_esurj")
+mesh = SubResource("BoxMesh_44pkh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Water"]
-shape = SubResource("BoxShape3D_2mnms")
+shape = SubResource("BoxShape3D_a3m0t")
 debug_color = Color(0, 0.6291839, 0.48194093, 0.41960785)
 
-[node name="WaterArea" type="Area3D" parent="Water" groups=["water"]]
+[node name="WaterArea" type="Area3D" parent="Water" groups=["hasPoison", "water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
-script = ExtResource("1_l7jxv")
+script = ExtResource("2_a3m0t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Water/WaterArea" groups=["water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("BoxShape3D_751tr")
+shape = SubResource("BoxShape3D_liwdc")
 
 [node name="RightWall" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 25.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RightWall"]
-mesh = SubResource("BoxMesh_348mh")
+mesh = SubResource("BoxMesh_41gmi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RightWall"]
-shape = SubResource("BoxShape3D_qww6o")
+shape = SubResource("BoxShape3D_obhmi")
 
 [node name="LeftWall" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, -25.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeftWall"]
-mesh = SubResource("BoxMesh_wiq44")
+mesh = SubResource("BoxMesh_a07oa")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWall"]
-shape = SubResource("BoxShape3D_yeup3")
+shape = SubResource("BoxShape3D_jobx2")
 
 [connection signal="body_entered" from="Water/WaterArea" to="Water/WaterArea" method="_on_body_entered"]
 [connection signal="body_exited" from="Water/WaterArea" to="Water/WaterArea" method="_on_body_exited"]

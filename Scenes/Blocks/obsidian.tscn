@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bru4w5xw24d3e"]
+
+[ext_resource type="Script" uid="uid://bev1xwe6wx8vg" path="res://Scripts/test_block.gd" id="1_cm8w1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cm8w1"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g44do"]
+material = SubResource("StandardMaterial3D_cm8w1")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g44do"]
+size = Vector3(1, 0.5, 1)
+
+[node name="Obsidian" type="RigidBody3D" groups=["Blocks"]]
+script = ExtResource("1_cm8w1")
+endurance = 4
+luck = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_g44do")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_g44do")

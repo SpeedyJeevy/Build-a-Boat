@@ -10,6 +10,15 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if self.is_in_group("hasRocks"):
+		loadRocks()
+		
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+func loadRocks():
 	var l = (self.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.x / 2) - 1
 	var w = (self.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.z / 2) - 1
 	for i in range(numLilRocks):
@@ -37,8 +46,3 @@ func _ready() -> void:
 		
 		# Makes newBigRock a child of the scene
 		add_child(newBigRock)
-		
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

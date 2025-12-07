@@ -30,5 +30,7 @@ script = ExtResource("1_h8pv5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LRArea"]
 shape = SubResource("BoxShape3D_h8pv5")
 
+[node name="damage_timer" type="Timer" parent="LRArea"]
+
 [connection signal="body_entered" from="LRArea" to="LRArea" method="_on_body_entered"]
 [connection signal="body_exited" from="LRArea" to="LRArea" method="_on_body_exited"]
