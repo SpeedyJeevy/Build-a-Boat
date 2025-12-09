@@ -1,0 +1,106 @@
+[gd_scene load_steps=15 format=3 uid="uid://dd83xjt6cx00g"]
+
+[ext_resource type="Script" uid="uid://bluyjt2e8orxu" path="res://Scripts/area.gd" id="1_2p6xh"]
+[ext_resource type="Script" uid="uid://bwpy4whef2q11" path="res://Scripts/water_area.gd" id="2_244t6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j0qj0"]
+albedo_color = Color(0.52156866, 0.49411765, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_j7qeb"]
+material = SubResource("StandardMaterial3D_j0qj0")
+size = Vector3(146.19, 1, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0kh7e"]
+size = Vector3(146.19, 1, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_276f1"]
+size = Vector3(146.19, 0.25, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7fp1s"]
+albedo_color = Color(0.22600415, 0.1068775, 0.031405326, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xiyon"]
+material = SubResource("StandardMaterial3D_7fp1s")
+size = Vector3(146.19, 35, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_82uet"]
+size = Vector3(146.19, 35, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2p6xh"]
+material = SubResource("StandardMaterial3D_7fp1s")
+size = Vector3(20, 35, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_244t6"]
+size = Vector3(20, 35, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j83um"]
+albedo_color = Color(0.22600415, 0.1068775, 0.031405326, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sm27x"]
+material = SubResource("StandardMaterial3D_j83um")
+size = Vector3(146.19, 35, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8u08v"]
+size = Vector3(146.19, 35, 1)
+
+[node name="InclineArea" type="Node3D" groups=["hasRocks"]]
+transform = Transform3D(0.9396926, -0.34202012, 0, 0.34202012, 0.9396926, 0, 0, 0, 1, 0, 25, 0)
+script = ExtResource("1_2p6xh")
+numLilRocks = 30
+numBigRocks = 0
+
+[node name="Water" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Water"]
+mesh = SubResource("BoxMesh_j7qeb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water"]
+shape = SubResource("BoxShape3D_0kh7e")
+debug_color = Color(0, 0.6291839, 0.48194093, 0.41960785)
+
+[node name="WaterArea" type="Area3D" parent="Water" groups=["Incline", "water"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+script = ExtResource("2_244t6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/WaterArea" groups=["water"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_276f1")
+
+[node name="RightWall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 25.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightWall"]
+mesh = SubResource("BoxMesh_xiyon")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightWall"]
+shape = SubResource("BoxShape3D_82uet")
+
+[node name="RightMini" type="StaticBody3D" parent="."]
+transform = Transform3D(0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 0, 0, 1, 76.5, 14.64, 25.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightMini"]
+mesh = SubResource("BoxMesh_2p6xh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightMini"]
+shape = SubResource("BoxShape3D_244t6")
+
+[node name="LeftMini" type="StaticBody3D" parent="."]
+transform = Transform3D(0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 0, 0, 1, 76.5, 14.64, -25.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftMini"]
+mesh = SubResource("BoxMesh_2p6xh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftMini"]
+shape = SubResource("BoxShape3D_244t6")
+
+[node name="LeftWall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, -25.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftWall"]
+mesh = SubResource("BoxMesh_sm27x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWall"]
+shape = SubResource("BoxShape3D_8u08v")
+
+[connection signal="body_entered" from="Water/WaterArea" to="Water/WaterArea" method="_on_body_entered"]
+[connection signal="body_exited" from="Water/WaterArea" to="Water/WaterArea" method="_on_body_exited"]

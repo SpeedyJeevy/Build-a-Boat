@@ -15,9 +15,19 @@ extends RigidBody3D
 # Area Specific Variables
 @onready var poisoned = false
 
+# Block Specific Variables
+
+# Chair/Sitting
+@onready var sitting = false
+@onready var player = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	
+	# Connecting Chair Functions
+	if self.is_in_group("Sittable"):
+		$ChairArea.body_entered.connect(_on_body_entered)
+		$ChairArea.body_exited.connect(_on_body_exited)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,10 +48,21 @@ func _physics_process(delta: float) -> void:
 		else:
 			print("Lucky break")
 	
+	# Poison logic
 	if int(delta) % 60 == 0:
-		# Poison logic
 		if poisoned:
 			poisonTick()
+	
+	# Handles right click events
+	if player and Input.is_action_just_pressed("right_click"):
+		# Calls sitting when near chairs
+		if self.is_in_group("Sittable"):
+			sit()
+	
+	# Handles Chair events
+	if self.is_in_group("Sittable"):
+		if sitting and player:
+			player.global_position = self.global_position + Vector3(0, 1.25, 0)
 
 # Interact with water function
 func enterWater():
@@ -60,6 +81,12 @@ func hitObject():
 func exitObject():
 	hit = false
 
+# Taking acid rain damage
+func acidHit():
+	print("Acid hit! health before = ", health)
+	health -= 1
+	print("Acid hit! health after = ", health)
+
 func dies():
 	if health <= 0:
 		queue_free()
@@ -73,3 +100,20 @@ func poisonTick():
 	if randf_range(0, 100) > luck:
 			health /= 1.0025
 			print("Poisoned, new health = ", health)
+
+# Block Specific Functions
+
+func _on_body_entered(body):
+	# Function determining if the player is nearby (body has a large radius around the block)
+	if body.is_in_group("player"):
+		player = body
+func _on_body_exited(body):
+	# 
+	if body == player:
+		player = null
+		if self.is_in_group("Sittable"):
+			sitting = false
+
+# Chair Sitting Function
+func sit():
+	sitting = !sitting

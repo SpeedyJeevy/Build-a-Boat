@@ -1,26 +1,32 @@
 extends Node3D
 
 # Types of rocks
-@onready var bigRock = preload("res://Scenes/Water_Areas/big_rock.tscn")
-@onready var lilRock = preload("res://Scenes/Water_Areas/lil_rock.tscn")
+@onready var bigRock = preload("res://Scenes/Water_Areas/Objects/big_rock.tscn")
+@onready var lilRock = preload("res://Scenes/Water_Areas/Objects/lil_rock.tscn")
+
+# Specific Events
+@onready var acidCloud = preload("res://Scenes/Water_Areas/Objects/acid_cloud.tscn")
 
 # Number of rocks
 @export var numLilRocks = 10
 @export var numBigRocks = 3
 
+# Number of specific obstaces
+@export var numAcidClouds = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if self.is_in_group("hasRocks"):
-		loadRocks()
+	var l = (self.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.x / 2) - 2
+	var w = (self.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.z / 2) - 2
+	loadRocks(l, w)
+	loadClouds(l, w)
 		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
-func loadRocks():
-	var l = (self.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.x / 2) - 1
-	var w = (self.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.z / 2) - 1
+func loadRocks(l: int, w: int):
 	for i in range(numLilRocks):
 		# Sets up newLilRock
 		var newLilRock = lilRock.instantiate()
@@ -46,3 +52,14 @@ func loadRocks():
 		
 		# Makes newBigRock a child of the scene
 		add_child(newBigRock)
+
+func loadClouds(l: int, w: int):
+	for i in range(numAcidClouds):
+		# Sets up newLilRock
+		var newCloud = acidCloud.instantiate()
+		# Sets up the position of the newLilRock
+		newCloud.position = Vector3(randi_range(-l, l), randf_range(34,37), randi_range(-w, w))
+		newCloud.rotation.y = randi_range(0, 359)
+		
+		# Makes newLilRock a child of the scene
+		add_child(newCloud)

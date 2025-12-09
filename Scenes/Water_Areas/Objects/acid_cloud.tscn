@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8cxiflmxuojs"]
+
+[ext_resource type="Script" uid="uid://bx0m2m6rfidwa" path="res://Scenes/Water_Areas/Objects/rain.gd" id="1_jmaw2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8m5tk"]
+albedo_color = Color(0.32421654, 0.32514498, 0.21982118, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_07sea"]
+material = SubResource("StandardMaterial3D_8m5tk")
+top_radius = 7.0
+bottom_radius = 5.0
+height = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jmaw2"]
+size = Vector3(100, 100, 100)
+
+[node name="AcidCloud" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_07sea")
+script = ExtResource("1_jmaw2")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -30, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_jmaw2")
+
+[connection signal="body_entered" from="Area3D" to="MeshInstance3D" method="_on_area_3d_body_entered"]

@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 player=""
 Blocks=""
+Sittable="Things you can sit on"
+Raindrop=""
 
 [input]
 

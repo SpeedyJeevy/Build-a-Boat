@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://p8acpf3twv13" path="res://Scenes/world_1.gd" id="1_d4kua"]
 [ext_resource type="Script" uid="uid://bg2lnhwfrjje8" path="res://Scripts/player.gd" id="1_nsk3r"]
-[ext_resource type="Script" uid="uid://co5cvyhpyw23c" path="res://Scripts/test_chair.gd" id="4_d4kua"]
+[ext_resource type="Script" uid="uid://bev1xwe6wx8vg" path="res://Scripts/test_block.gd" id="3_ax6sa"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nsk3r"]
 sky_top_color = Color(0.19607843, 0.90588236, 1, 1)
@@ -102,9 +102,9 @@ spring_length = 2.0
 [node name="Camera3D" type="Camera3D" parent="Player/Node3D/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 0.9699231, 0.24341181, 0, -0.24341181, 0.9699231, 0, 0, 0)
 
-[node name="TestChair" type="RigidBody3D" parent="." groups=["Blocks"]]
+[node name="TestChair" type="RigidBody3D" parent="." groups=["Blocks", "Sittable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 7.5, 1)
-script = ExtResource("4_d4kua")
+script = ExtResource("3_ax6sa")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TestChair"]
 shape = SubResource("BoxShape3D_ax6sa")
