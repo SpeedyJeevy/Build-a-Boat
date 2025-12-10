@@ -20,6 +20,12 @@ func _on_body_entered(body: Node3D) -> void:
 		# Specific Water Areas
 		if self.is_in_group("hasPoison"):
 			body.enterPoison()
+		
+		if self.is_in_group("Corner"):
+			if self.rotation.y == 0:
+				body.turn(true) # Turning right
+			else:
+				body.turn(false) # Turning left
 
 
 func _on_body_exited(body: Node3D) -> void:

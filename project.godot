@@ -21,6 +21,7 @@ player=""
 Blocks=""
 Sittable="Things you can sit on"
 Raindrop=""
+Corner=""
 
 [input]
 

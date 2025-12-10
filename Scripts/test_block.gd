@@ -10,7 +10,12 @@ extends RigidBody3D
 @onready var hit = false
 @onready var inWater = false
 @onready var touchWater = 0
-@onready var waterFlowVel = Vector3(6.0, 0.0, 0.0)
+@onready var forward = true
+@onready var right = false
+@onready var left = false
+@onready var waterFlowVelNorm = Vector3(6.0, 0.0, 0.0)
+@onready var waterFlowVelRight = Vector3(0.0, 0.0, 6.0)
+@onready var waterFlowVelLeft = Vector3(0.0, 0.0, -6.0)
 
 # Area Specific Variables
 @onready var poisoned = false
@@ -37,7 +42,12 @@ func _physics_process(delta: float) -> void:
 		
 	# Water touching logic
 	if inWater:
-		linear_velocity = waterFlowVel
+		if forward:
+			linear_velocity = waterFlowVelNorm
+		elif left:
+			linear_velocity = waterFlowVelLeft
+		elif right:
+			linear_velocity = waterFlowVelRight
 	
 	# Block touching logic
 	if hit:
@@ -73,6 +83,19 @@ func exitWater():
 	if touchWater <= 0:
 		inWater = false
 		linear_velocity = Vector3.ZERO
+func turn(direction: bool): # Where true = right, false = left
+	if direction:
+		forward = !forward
+		if left:
+			left = !left
+		else:
+			right = !right
+	else:
+		forward = !forward
+		if right:
+			right = !right
+		else:
+			left = !left
 
 # Hitting a damaging object function
 func hitObject():

@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://cu57udaxvb24"]
+
+[ext_resource type="Script" uid="uid://bev1xwe6wx8vg" path="res://Scripts/test_block.gd" id="1_2tuti"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qq626"]
+size = Vector3(1, 0.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_55cx1"]
+size = Vector3(1, 0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e6na5"]
+albedo_color = Color(0.61843055, 0.1732918, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_rcisv"]
+script/source = "extends Area3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n46f7"]
+size = Vector3(5, 5, 5)
+
+[node name="Chair" type="RigidBody3D" groups=["Blocks", "Sittable"]]
+script = ExtResource("1_2tuti")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_qq626")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_55cx1")
+surface_material_override/0 = SubResource("StandardMaterial3D_e6na5")
+
+[node name="ChairArea" type="Area3D" parent="."]
+script = SubResource("GDScript_rcisv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ChairArea"]
+shape = SubResource("BoxShape3D_n46f7")
