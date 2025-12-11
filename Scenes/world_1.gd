@@ -8,9 +8,12 @@ var dropAreaScene = preload("res://Scenes/Water_Areas/drop_area.tscn")
 var inclineAreaScene = preload("res://Scenes/Water_Areas/incline_area.tscn")
 var acidRainAreaScene = preload("res://Scenes/Water_Areas/acid_rain_area.tscn")
 var cornerAreaScene = preload("res://Scenes/Water_Areas/corner_area.tscn")
+var fastAreaScene = preload("res://Scenes/Water_Areas/fast_area.tscn")
 
 # Functions for calling each scene
-@onready var possibleAreas = [inclineAreaScene, acidRainAreaScene, cornerAreaScene] #  basicAreaScene, longAreaScene, poisonAreaScene, dropAreaScene, 
+@onready var possibleAreas = [basicAreaScene, longAreaScene, poisonAreaScene, dropAreaScene, inclineAreaScene, acidRainAreaScene, cornerAreaScene, fastAreaScene] 
+#    
+#    
 
 # Types of blocks
 @onready var block = preload("res://Scenes/Blocks/block.tscn")
@@ -19,7 +22,7 @@ var cornerAreaScene = preload("res://Scenes/Water_Areas/corner_area.tscn")
 @onready var obsidian = preload("res://Scenes/Blocks/obsidian.tscn")
 @onready var chair = preload("res://Scenes/Blocks/basic_chair.tscn")
 
-@onready var numAreas = 6 # Change to make more areas spawn
+@onready var numAreas = 100 # Change to make more areas spawn
 @onready var areaList = [] # List of procedurally generated areas
 @onready var totalSpaceX = 0 # Displacement between areas on the X
 @onready var totalSpaceY = 0 # Displacement between areas on the Y
@@ -32,7 +35,7 @@ func _ready() -> void:
 	for i in range(numAreas):
 		var nextArea = possibleAreas.pick_random()
 		loadArea(nextArea)
-		
+
 		
 	# TEMPORARY BUILDING BLOCKS ADDING
 	var x = -1
@@ -80,16 +83,15 @@ func loadArea(areaType: PackedScene):
 	areaList.append(newArea)
 	
 	# Sets up the position of the newArea
-	var areaSpacingX = totalSpaceX + 25
+	var areaSpacingX = 0
 	var additionalY = 0
 	var areaSpacingZ = 0
 	var areaSpacing = 0
-	var sideSpacing = 0
+	var rotationError = 0
 	
 	# For normally rotated (non-inclines)
 	if newArea.rotation.z == 0:
 		areaSpacing = newArea.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.x
-		sideSpacing = (newArea.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.z / 2)
 	# For rotated areas (inclines)
 	else:
 		var rotation = newArea.rotation.z
@@ -97,23 +99,24 @@ func loadArea(areaType: PackedScene):
 		areaSpacing =  (cos(rotation)) * hypotenuse
 		totalSpaceY += (sin(rotation)) * hypotenuse
 		additionalY = - ((sin(rotation)) * hypotenuse) / 2
-		sideSpacing = (newArea.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.z / 2)
+	var lengthZ = newArea.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.z
+	rotationError = (areaSpacing - lengthZ) / 2
 	
 	# Transforms in either x or z:
 	if direction == 0:
-		areaSpacingX = ((areaSpacing / 2)) + totalSpaceX + 25
+		areaSpacingX += (areaSpacing / 2) + 25 + totalSpaceX
 		totalSpaceX += areaSpacing
 		areaSpacingZ = totalSpaceZ
 	elif direction == 1:
+		areaSpacingX += ((areaSpacing / 2) + 25 + totalSpaceX - rotationError)
 		newArea.rotation.y = - (PI / 2)
-		areaSpacingZ = totalSpaceZ + 50
+		areaSpacingZ += (totalSpaceZ + 25) + (areaSpacing / 2)
 		totalSpaceZ += areaSpacing
-		areaSpacingX = sideSpacing + totalSpaceX + 25
 	elif direction == -1:
+		areaSpacingX += ((areaSpacing / 2) + 25 + totalSpaceX - rotationError)
 		newArea.rotation.y = (PI / 2)
-		areaSpacingZ = totalSpaceZ - 50
-		totalSpaceZ -= (areaSpacing / 2)
-		areaSpacingX = sideSpacing + totalSpaceX + 25
+		areaSpacingZ += (totalSpaceZ - 25) - (areaSpacing / 2) 
+		totalSpaceZ -= areaSpacing
 	
 	# For areas with a drop
 	if newArea.get_node("BackWall"):
@@ -124,26 +127,21 @@ func loadArea(areaType: PackedScene):
 	
 	# Changes direction if it is a corner:
 	if newArea.is_in_group("Corner"):
-		if direction == 1: # Right
+		if direction == 1: # Current direction is already right
 			newArea.rotation.y = PI
-			totalSpaceZ -= areaSpacing
 			totalSpaceX += areaSpacing
-		elif direction == -1: # Left
+			direction = 0
+		elif direction == -1: # Current direction is already left
 			newArea.rotation.y = PI / 2
-			totalSpaceZ += areaSpacing
 			totalSpaceX += areaSpacing
-		elif direction == 0: # Forward
-			newArea.rotation.y = [0, - PI / 2].pick_random()
+			direction = 0
+		elif direction == 0: # Current direction is already forward
 			totalSpaceX -= areaSpacing
-			if newArea.rotation.y == 0:
-				totalSpaceZ += areaSpacing
-			else:
-				totalSpaceZ -= areaSpacing
-		
-		if newArea.rotation.y == 0 or newArea.rotation.y == PI / 2: # Turning right
-			direction += 1
-		else:                    # Turning left
-			direction -= 1
+			newArea.rotation.y = [0, - PI / 2].pick_random()
+			if newArea.rotation.y == 0: # Turning right
+				direction = 1
+			else:  # Turning left
+				direction = -1
 	
 	# Makes newArea a child of the scene
 	add_child(newArea)

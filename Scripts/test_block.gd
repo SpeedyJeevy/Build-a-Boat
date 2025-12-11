@@ -10,9 +10,7 @@ extends RigidBody3D
 @onready var hit = false
 @onready var inWater = false
 @onready var touchWater = 0
-@onready var forward = true
-@onready var right = false
-@onready var left = false
+@onready var direction = 0
 @onready var waterFlowVelNorm = Vector3(6.0, 0.0, 0.0)
 @onready var waterFlowVelRight = Vector3(0.0, 0.0, 6.0)
 @onready var waterFlowVelLeft = Vector3(0.0, 0.0, -6.0)
@@ -42,11 +40,11 @@ func _physics_process(delta: float) -> void:
 		
 	# Water touching logic
 	if inWater:
-		if forward:
+		if direction == 0: # Forward
 			linear_velocity = waterFlowVelNorm
-		elif left:
+		elif direction == -1: # Left
 			linear_velocity = waterFlowVelLeft
-		elif right:
+		elif direction == 1: # Right
 			linear_velocity = waterFlowVelRight
 	
 	# Block touching logic
@@ -83,19 +81,17 @@ func exitWater():
 	if touchWater <= 0:
 		inWater = false
 		linear_velocity = Vector3.ZERO
-func turn(direction: bool): # Where true = right, false = left
-	if direction:
-		forward = !forward
-		if left:
-			left = !left
+func turn(lr: bool, ff: bool): # Where lr true/false = right/left, ff true/false = facing forward/not facing forward
+	if lr:
+		if ff:
+			direction = 1
 		else:
-			right = !right
+			direction = 0
 	else:
-		forward = !forward
-		if right:
-			right = !right
+		if ff:
+			direction = -1
 		else:
-			left = !left
+			direction = 0
 
 # Hitting a damaging object function
 func hitObject():
@@ -123,6 +119,17 @@ func poisonTick():
 	if randf_range(0, 100) > luck:
 			health /= 1.0025
 			print("Poisoned, new health = ", health)
+
+# Fast area functions
+func changeSpeed():
+	if waterFlowVelNorm == Vector3(6.0, 0.0, 0.0):
+		waterFlowVelNorm = Vector3(30.0, 0.0, 0.0)
+		waterFlowVelLeft = Vector3(0.0, 0.0, -30.0)
+		waterFlowVelRight = Vector3(0.0, 0.0, 30.0)
+	else:
+		waterFlowVelNorm = Vector3(6.0, 0.0, 0.0)
+		waterFlowVelRight = Vector3(0.0, 0.0, 6.0)
+		waterFlowVelLeft = Vector3(0.0, 0.0, -6.0)
 
 # Block Specific Functions
 

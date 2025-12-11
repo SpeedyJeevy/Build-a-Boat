@@ -7,6 +7,9 @@ extends CharacterBody3D
 @onready var touchWater = 0
 @onready var hit = false
 
+@onready var waterDirection = 0
+@onready var waterSpeed = 1
+
 # Going down the list...
 @onready var camera = $Node3D
 
@@ -57,7 +60,13 @@ func _physics_process(delta: float) -> void:
 	# Water touching logic
 	if is_on_floor() and inWater:
 		# Do damage
-		self.position.x += 0.1
+		
+		if waterDirection == 0: # Forward
+			self.position.x += 0.1 * waterSpeed
+		elif waterDirection == -1: # Left
+			self.position.z -= 0.1 * waterSpeed
+		elif waterDirection == 1: # Right
+			self.position.z += 0.1 * waterSpeed
 		
 	
 	move_and_slide()
@@ -72,6 +81,17 @@ func exitWater():
 	touchWater -= 1
 	if touchWater <= 0:
 		inWater = false
+func turn(lr: bool, ff: bool): # Where lr true/false = right/left, ff true/false = facing forward/not facing forward
+	if lr:
+		if ff:
+			waterDirection = 1
+		else:
+			waterDirection = 0
+	else:
+		if ff:
+			waterDirection = -1
+		else:
+			waterDirection = 0
 
 # Hitting a damaging object function
 func hitObject():
@@ -86,3 +106,10 @@ func exitPoison():
 	poisoned = false
 func poisonTick(): # CURRENTLY EMPTY
 	pass
+
+# Fast area functions
+func changeSpeed():
+	if waterSpeed == 1:
+		waterSpeed = 7.5
+	elif waterSpeed == 7.5:
+		waterSpeed = 1
