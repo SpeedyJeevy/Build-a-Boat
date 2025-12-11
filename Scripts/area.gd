@@ -6,6 +6,7 @@ extends Node3D
 
 # Specific Events
 @onready var acidCloud = preload("res://Scenes/Water_Areas/Objects/acid_cloud.tscn")
+@onready var evilCannon = preload("res://Scenes/Water_Areas/Objects/evil_cannon.tscn")
 
 # Number of rocks
 @export var numLilRocks = 10
@@ -13,6 +14,7 @@ extends Node3D
 
 # Number of specific obstaces
 @export var numAcidClouds = 0
+@export var numEvilCannons = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -20,6 +22,7 @@ func _ready() -> void:
 	var w = (self.get_node("Water").get_node("MeshInstance3D").mesh.get_aabb().size.z / 2) - 2
 	loadRocks(l, w)
 	loadClouds(l, w)
+	loadCannons(l, w)
 		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,3 +66,18 @@ func loadClouds(l: int, w: int):
 		
 		# Makes newLilRock a child of the scene
 		add_child(newCloud)
+
+func loadCannons(l: int, w: int):
+	for i in range(numEvilCannons):
+		# Sets up newCannon
+		var newCannon = evilCannon.instantiate()
+		# Sets up the position of the newCannon
+		var side = [w + 2, - (w + 2)].pick_random()
+		newCannon.position = Vector3(randi_range(-l, l), randi_range(5, 10), side)
+		if side == w + 2:
+			newCannon.rotation.y = PI / 2
+		else:
+			newCannon.rotation.y = - (PI / 2)
+		
+		# Makes newCannon a child of the scene
+		add_child(newCannon)

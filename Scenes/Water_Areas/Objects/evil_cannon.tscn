@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://vko0aenxeo3f"]
+
+[ext_resource type="Script" uid="uid://cymkfutmxcv15" path="res://Scenes/Water_Areas/Objects/evil_cannon.gd" id="1_wgvwu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hb6id"]
+albedo_color = Color(0.33912084, 0.15514094, 0.076982595, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wgvwu"]
+material = SubResource("StandardMaterial3D_hb6id")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lb1qt"]
+size = Vector3(50, 50, 50)
+
+[node name="EvilCannon" type="StaticBody3D"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_wgvwu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_wgvwu")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_lb1qt")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

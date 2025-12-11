@@ -5,10 +5,10 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wgqwl"]
 albedo_color = Color(0.9032738, 0.78220695, 0.49853104, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_wgqwl"]
+[sub_resource type="BoxMesh" id="BoxMesh_4yl8j"]
 material = SubResource("StandardMaterial3D_wgqwl")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_4yl8j"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_x2y8m"]
 size = Vector3(1, 0.5, 1)
 
 [node name="Block" type="RigidBody3D" groups=["Blocks"]]
@@ -16,7 +16,7 @@ script = ExtResource("1_wgqwl")
 health = 3.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_wgqwl")
+mesh = SubResource("BoxMesh_4yl8j")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_4yl8j")
+shape = SubResource("BoxShape3D_x2y8m")

@@ -9,9 +9,10 @@ var inclineAreaScene = preload("res://Scenes/Water_Areas/incline_area.tscn")
 var acidRainAreaScene = preload("res://Scenes/Water_Areas/acid_rain_area.tscn")
 var cornerAreaScene = preload("res://Scenes/Water_Areas/corner_area.tscn")
 var fastAreaScene = preload("res://Scenes/Water_Areas/fast_area.tscn")
+var evilCannonAreaScene = preload("res://Scenes/Water_Areas/cannon_area.tscn")
 
 # Functions for calling each scene
-@onready var possibleAreas = [basicAreaScene, longAreaScene, poisonAreaScene, dropAreaScene, inclineAreaScene, acidRainAreaScene, cornerAreaScene, fastAreaScene] 
+@onready var possibleAreas = [basicAreaScene, longAreaScene, poisonAreaScene, dropAreaScene, inclineAreaScene, acidRainAreaScene, cornerAreaScene, fastAreaScene, evilCannonAreaScene] 
 #    
 #    
 
@@ -21,6 +22,10 @@ var fastAreaScene = preload("res://Scenes/Water_Areas/fast_area.tscn")
 @onready var luckyBlock = preload("res://Scenes/Blocks/lucky_block.tscn")
 @onready var obsidian = preload("res://Scenes/Blocks/obsidian.tscn")
 @onready var chair = preload("res://Scenes/Blocks/basic_chair.tscn")
+
+# Dev Block (maybe fun gamemode later)
+@onready var infinityBlock = preload("res://Scenes/Blocks/infinity_block.tscn")
+@onready var infinityChair = preload("res://Scenes/Blocks/infinity_chair.tscn")
 
 @onready var numAreas = 100 # Change to make more areas spawn
 @onready var areaList = [] # List of procedurally generated areas
@@ -41,31 +46,22 @@ func _ready() -> void:
 	var x = -1
 	var y = 0
 	var z = 0
-	chair = chair.instantiate()
+	chair = infinityChair.instantiate()
 	chair.position = Vector3(26, 7.5, 1)
 	add_child(chair)
-	for i in range(60):
+	for i in range(120):
 		var newBlock
-		newBlock = obsidian.instantiate()
-#		if i < 20:
-#			newBlock = block.instantiate()
-#		elif i < 40:
-#			newBlock = stoneBlock.instantiate()
-#		else:
-#			newBlock = luckyBlock.instantiate()
-		if i == 30:
+		newBlock = block.instantiate()
+		if i == 60:
 			x = -1
 			y = 0
 			z = 0
-		if i % 3 == 0:
+		if i % 12 == 0:
 			x += 1
 		else:
-			if z == 1:
-				z = 2
-			elif z == 2:
+			z += 1
+			if z == 12:
 				z = 0
-			else:
-				z = 1
 			
 		newBlock.position = Vector3(25 + x, 6.75 - y, 0 + z)
 		

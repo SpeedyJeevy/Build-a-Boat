@@ -102,9 +102,10 @@ func exitObject():
 
 # Taking acid rain damage
 func acidHit():
-	print("Acid hit! health before = ", health)
-	health -= 1
-	print("Acid hit! health after = ", health)
+	if randf_range(0, 100) > luck:
+		print("Acid hit! health before = ", health)
+		health -= 1
+		print("Acid hit! health after = ", health)
 
 func dies():
 	if health <= 0:
@@ -119,6 +120,10 @@ func poisonTick():
 	if randf_range(0, 100) > luck:
 			health /= 1.0025
 			print("Poisoned, new health = ", health)
+func evilCannonHit():
+	if randf_range(0, 100) > luck:
+		health -= (4.0 / endurance)
+		print("evil cannon hit!", health)
 
 # Fast area functions
 func changeSpeed():

@@ -14,7 +14,7 @@ height = 1.0
 radius = 0.26
 height = 1.01
 
-[node name="AcidDrop" type="RigidBody3D" groups=["Raindrop"]]
+[node name="AcidDrop" type="RigidBody3D"]
 script = ExtResource("1_6xbet")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
