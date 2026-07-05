@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Build a Boat EXTREME"
-run/main_scene="uid://b20hckk2j0msd"
+run/main_scene="uid://chjjcfkkiwnlc"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

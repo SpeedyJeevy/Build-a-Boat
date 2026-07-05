@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://1g6nn7xrrl2h"]
+
+[ext_resource type="Script" uid="uid://cqol7rrfx6gpw" path="res://Scripts/rock_area.gd" id="1_37jqg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_grpf8"]
+size = Vector3(4, 4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tihbx"]
+albedo_color = Color(0.22140893, 0.088096775, 0.025691183, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jodmh"]
+material = SubResource("StandardMaterial3D_tihbx")
+size = Vector3(4, 4, 4)
+
+[node name="LilSpaceRock" type="StaticBody3D" unique_id=1351254521 groups=["Rocks"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_37jqg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1028544561]
+shape = SubResource("BoxShape3D_grpf8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=235665412]
+mesh = SubResource("BoxMesh_jodmh")
+
+[node name="DamageTimer" type="Timer" parent="." unique_id=407885528]

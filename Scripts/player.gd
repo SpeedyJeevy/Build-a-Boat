@@ -11,6 +11,8 @@ extends CharacterBody3D
 @onready var direction = 0
 @onready var waterSpeed = 1
 
+@onready var abilitiesOn = true
+
 # Player specific count variables
 @onready var blockCountList = []
 # Decrement during placement, read off of a file or something, OR DATABASE, add when gachad/bought
@@ -25,7 +27,8 @@ extends CharacterBody3D
 
 # Going down the list...
 @onready var camera = $Camera
-@onready var bpz = get_node("/root/World1/BlockPlacementZone")
+#@onready var bpz = get_node("/root/World1/BlockPlacementZone")
+@onready var bpz = $"../BlockPlacementZone"
 @onready var cblockDis = $"StatDisplay/Current Block"
 @onready var moneyDis = $"StatDisplay/Current Money"
 @onready var healthDis = $"StatDisplay/Current Health"
@@ -66,7 +69,13 @@ func _input(event):
 		var num = event.as_text().to_int() - 1
 		if num == -1:
 			num = 9
-		abilities.abilityList[num].call()
+		if !Globals.launched:
+			if num == 0:
+				print("Place blocks")
+			elif num == 1:
+				print("Line tool")
+		elif abilitiesOn:
+			abilities.abilityList[num].call()
 	
 	# Handles the camera... Thank you Jus
 	if (event is InputEventMouseMotion):
@@ -82,7 +91,7 @@ func _input(event):
 	
 	# Place block
 	# if (buildable):
-	if (event is InputEventMouseButton and Input.is_action_just_pressed("left_click")):
+	if (event is InputEventMouseButton and Input.is_action_just_pressed("left_click")) and !Globals.launched:
 		if (Input.is_action_pressed("ready_block")):
 			var click_pos : Vector4 = getClickPosition(event.position)
 			# click_pos.w == 0, no hit, return
@@ -118,7 +127,7 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta * 2
 	
 	# From Jus:
-	# Get the input direcdtion and handle the movement/deceleration.
+	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var moveDirection : Vector3 = (camera.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -148,7 +157,7 @@ func _physics_process(delta: float) -> void:
 	
 	# block preview
 	# if (buildable):
-	if (Input.is_action_pressed("ready_block")):
+	if (Input.is_action_pressed("ready_block")) and !Globals.launched:
 		var click_pos : Vector4 = getClickPosition(mousePos)
 		# click_pos.w == 0, no hit, return
 		if (click_pos.w == 0): return
@@ -237,6 +246,10 @@ func exitWater():
 	if touchWater <= 0:
 		inWater = false
 func turn(newDir):
+	direction = newDir
+
+# Interact with SPACE
+func fly(newDir):
 	direction = newDir
 
 # Hitting a damaging object function

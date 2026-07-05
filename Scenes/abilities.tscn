@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b4x3fg545md1i" path="res://Scripts/abilities.gd" id="1_r66qs"]
 
 [node name="Abilities" type="Node2D" unique_id=2064691941]
+visible = false
 script = ExtResource("1_r66qs")
 
 [node name="Ability1" type="Label" parent="." unique_id=69873791]

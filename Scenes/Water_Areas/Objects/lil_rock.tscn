@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cqol7rrfx6gpw" path="res://Scripts/rock_area.gd" id="1_h8pv5"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_grpf8"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_hovuy"]
 size = Vector3(2, 2, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grpf8"]
@@ -17,11 +17,9 @@ transform = Transform3D(1, 0, 0, 0, 0.5729186, 0.81961226, 0, -0.81961226, 0.572
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_h8pv5")
-health = 10.0
-maxHealth = 10.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1028544561]
-shape = SubResource("BoxShape3D_grpf8")
+shape = SubResource("BoxShape3D_hovuy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=235665412]
 mesh = SubResource("BoxMesh_h8pv5")

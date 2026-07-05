@@ -14,9 +14,12 @@ extends CollisionShape3D
 @onready var alive = true
 
 # Parent
-@onready var ships = get_parent().get_parent()
-@onready var player = get_node("/root/World1/Player")
-@onready var world = get_node("/root/World1")
+@onready var ships = self.get_parent().get_parent() # Technically not correct for block preview but IDGAF
+@onready var world = get_node(str(Globals.path))
+@onready var player = get_node(str(Globals.path) + "Player")
+# Parents
+		
+		
 
 @onready var damageTouching = []
 @onready var inWater = false
@@ -103,7 +106,8 @@ func dies():
 		if self.is_in_group("Explodes") and notExploded:
 			notExploded = false
 			explode()
-		queue_free()
+		get_parent().deadLastFrame = true
+		get_parent().deadChildren.append(self.global_position)
 
 # Poison functions REWORK POISON I GOT RID OF THE THING THAT MAKES IT WORK EARLIER
 func enterPoison():
@@ -159,10 +163,11 @@ func explode():
 		if body.is_in_group("Rocks"):
 			body.damage(5)
 
-func damage(amount):
+func damage(amount: float):
 	# Luck logic:
 	if randf_range(0, 100) > luck:
 		health -= (amount / endurance)
+		print("health = " + str(health))
 	if self.health <= 0:
 		dies()
 	elif self.health >= 250:

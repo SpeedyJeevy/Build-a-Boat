@@ -145,7 +145,11 @@ func createMap():
 
 func launch():
 	Globals.launched = true
-	$"Player/Abilities".activateAbilities()
+	
+	# Player
+	if player.abilitiesOn:
+		$"Player/Abilities".activateAbilities()
+		$"Player/Abilities".visible = true
 	$LaunchAnimation.play("Launch")
 	
 	# Unfreezes blocks when the water shows up
@@ -173,15 +177,10 @@ func unlaunch(win: bool): # If we won then win = true
 	player.adjMoney(true, amountWon)
 	player.health = player.maxHealth
 	player.updateHealth()
-	player.position = Vector3(-20, 15, 0)
+	player.position = Vector3(-20, 0, 0)
 	$"Player/Settings/LaunchButton".show()
 	player.getPlayerBlocks()
 	
 	# Boat
 	for ship in ships.get_children():
-		ship.freeze = true
-		ship.position = Vector3.ZERO
-		ship.rotation = Vector3.ZERO
-		ship.linear_velocity = Vector3.ZERO
-		for child in ship.get_children():
-			child.queue_free()
+		ship.queue_free()

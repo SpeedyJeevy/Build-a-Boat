@@ -11,7 +11,8 @@ extends RigidBody3D
 
 @onready var shipScript = load("res://Scripts/ship.gd")
 
-@onready var histChildCount = self.get_child_count()
+@onready var deadLastFrame = false
+@onready var deadChildren = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,31 +22,31 @@ func _ready() -> void:
 	print("I was just born")
 
 func _process(delta: float) -> void:
-	var newChildCount = self.get_child_count()
-	if newChildCount != histChildCount:
-		self.reevaluateParts(self)
-	histChildCount = newChildCount
+	if deadLastFrame:
+		self.reevaluateParts()
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	
-	# Updates mass and inertia dynamically
-	var childCount = get_child_count()
-	var childLog = log(childCount)
-	if childLog > 1:
-		mass = childLog
-		inertia = Vector3(childCount, childCount, childCount)
-	
 	# Water touching logic
-	
-	if linear_velocity.x > waterFlowMax and !specialCase:
-		linear_velocity.x = waterFlowMax
-	if abs(linear_velocity.z) > waterFlowMax and !specialCase:
-		if direction < 0:
-			linear_velocity.z = -waterFlowMax
-		else:
-			linear_velocity.z = waterFlowMax
+	if !Globals.spaceWater:
+		
+		# Updates mass and inertia dynamically
+		var childCount = get_child_count()
+		var childLog = log(childCount)
+		if childLog > 1:
+			mass = childLog
+			inertia = Vector3(childCount, childCount, childCount)
+		
+		if linear_velocity.x > waterFlowMax and !specialCase:
+			linear_velocity.x = waterFlowMax
+		if abs(linear_velocity.z) > waterFlowMax and !specialCase:
+			if direction < 0:
+				linear_velocity.z = -waterFlowMax
+			else:
+				linear_velocity.z = waterFlowMax
 	
 	if touchWater > 1 and !self.freeze and is_equal_approx(self.linear_velocity.x, 0) and is_equal_approx(self.linear_velocity.y, 0) and is_equal_approx(self.linear_velocity.z, 0):
 		print("Almost 0!")
@@ -120,23 +121,52 @@ func move():
 	elif direction == 1: # Diagonally Right
 		apply_central_force(massAssist * Vector3(400, buoyancy.y, 400))
 
-func reevaluateParts(deadGuy):
+func reevaluateParts():
 	# Get all remaining blocks (excluding dead one)
 	var remaining = []
+	var potentialShips = []
+	var done = false
+	
 	for child in self.get_children():
-		if child != deadGuy:
+		for deadGuyPos in deadChildren:
+			print("Dead guy: " + str(deadGuyPos))
+			print("Me: " + str(child.global_position))
+			var dist = (child.global_position - deadGuyPos).length()
+			if is_equal_approx(dist, 0):
+				child.queue_free()
+			elif (child.global_position - deadGuyPos).length() < 1.75:
+				potentialShips.append(child)
+				print("new potential ship!")
 			remaining.append(child)
-
+	
+	# Returns if only 1 possible ship
+	if potentialShips.size() == 1:
+		deadChildren.clear()
+		deadLastFrame = false
+		return
+	
+	# First checks if there is a block in potentialShips that touches all other potentialShips
+	for block in potentialShips:
+		var myCount = 0
+		for block2 in potentialShips:
+			if block != block2 and (block.global_position - block2.global_position).length() < 1.75:
+				myCount += 1
+		if myCount == potentialShips.size() - 1:
+			print("I'm returning because all potential ships are nearby")
+			deadChildren.clear()
+			deadLastFrame = false
+			return
+	
 	# Keep finding connected groups until no blocks left
-	while remaining.size() > 0:
+	while potentialShips.size() > 0:
 		var newShip = self.duplicate()
 		for child in newShip.get_children():
 			child.queue_free()
 		get_parent().add_child(newShip)
 
 		# Start a new group from the first remaining block
-		var group = [remaining[0]]
-		remaining.erase(remaining[0])
+		var group = [potentialShips[0]]
+		potentialShips.erase(potentialShips[0])
 
 		# Flood fill - find all blocks connected to this group
 		var i = 0
@@ -148,20 +178,42 @@ func reevaluateParts(deadGuy):
 			while j >= 0:  # Iterate backwards so we can remove safely
 				var other = remaining[j]
 				var dist = (current.global_position - other.global_position).length()
-				if dist < 1.75:  # Adjust this to match your block size!
+				if dist < 1.75:
 					group.append(other)
-					remaining.erase(other)
+					if other in potentialShips:
+						potentialShips.erase(other)
+						if potentialShips.size() == 0:
+							done = true
+					else:
+						remaining.erase(other)
+
 				j -= 1
+				if done:
+					break
 			i += 1
+			if done:
+				break
 
 		# Add all blocks in this group to the new ship
-		for block in group:
-			block.reparent(newShip)
-			print("REPARENTED")
+		if remaining.size() != 0 and !done:
+			for block in group:
+				block.reparent(newShip)
+				print("REPARENTED")
+		else:
+			print("I kept " + str(group.size()) + " children")
 	# FINAL GROUP OF BLOCKS KEEPS CURRENT PARENT
 	print("Remaining children count:" + str(get_child_count()))
+	deadChildren.clear()
+	deadLastFrame = false
 
 func turn(newDir):
 	direction = newDir
 	if !self.freeze:
 		move()
+
+func fly(newDir):
+	direction = newDir
+	#if !self.freeze:
+	var distToCentX = self.global_position.x
+	var distToCentZ = self.global_position.z
+	self.apply_central_force(Vector3(-distToCentX, 10, -distToCentZ))

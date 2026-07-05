@@ -13,17 +13,18 @@ extends Node3D
 @onready var glassBlock = preload("res://Scenes/Blocks/glass_block.tscn")
 @onready var basicBlock = preload("res://Scenes/Blocks/basic_block.tscn")
 @onready var healthBlock = preload("res://Scenes/Blocks/health_block.tscn")
+@onready var pole = preload("res://Scenes/Blocks/pole.tscn")
 
 # Dev Block (maybe fun gamemode later)
 @onready var infinityBlock = preload("res://Scenes/Blocks/infinity_block.tscn")
 @onready var infinityChair = preload("res://Scenes/Blocks/infinity_chair.tscn")
 
-@onready var blocks = [block, stoneBlock, luckyBlock, obsidian, chair, woodBlock, tnt, grassBlock, vampireBlock, glassBlock, basicBlock, healthBlock, infinityBlock, infinityChair]
+@onready var blocks = [block, stoneBlock, luckyBlock, obsidian, chair, woodBlock, tnt, grassBlock, vampireBlock, glassBlock, basicBlock, healthBlock, pole, infinityBlock, infinityChair]
 @onready var blockIndex = 0
 @onready var test_blocc = blocks[blockIndex]
 
-@onready var player = get_node("/root/World1/Player")
-@onready var ships = get_node("/root/World1/ShipParts")
+@onready var player = get_node(str(Globals.path) + "Player")
+@onready var ships = get_node(str(Globals.path) + "ShipParts")
 @onready var shipScript = load("res://Scripts/ship.gd")
 
 # funny preview blocc

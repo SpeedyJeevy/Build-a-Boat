@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://chjjcfkkiwnlc"]
+
+[ext_resource type="Script" uid="uid://cft7isrys6pkg" path="res://Scripts/title_screen.gd" id="1_klylv"]
+
+[node name="TitleScreen" type="Control" unique_id=642286044]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_klylv")
+
+[node name="BG" type="ColorRect" parent="." unique_id=764883169]
+layout_mode = 0
+offset_right = 1179.0
+offset_bottom = 678.0
+color = Color(0.22670749, 0.22670749, 0.22670746, 1)
+
+[node name="Water" type="Button" parent="." unique_id=130853918]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 340.0
+offset_right = 434.0
+offset_bottom = 597.0
+text = "  Water  "
+
+[node name="Space" type="Button" parent="." unique_id=1552934369]
+layout_mode = 0
+offset_left = 706.0
+offset_top = 332.0
+offset_right = 983.0
+offset_bottom = 570.0
+text = "  Space  "
+
+[node name="Title" type="Label" parent="." unique_id=2039752491]
+layout_mode = 0
+offset_left = 535.0
+offset_top = 117.0
+offset_right = 586.0
+offset_bottom = 140.0
+text = "  Title  "
+
+[connection signal="pressed" from="Water" to="." method="_on_water_pressed"]
+[connection signal="pressed" from="Space" to="." method="_on_space_pressed"]

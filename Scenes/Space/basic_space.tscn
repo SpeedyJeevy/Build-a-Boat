@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://dcr0rfgu48hk3"]
+
+[ext_resource type="Script" uid="uid://8k7abvaq1bx0" path="res://Scripts/Space/space_areas.gd" id="1_ukgsv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1yp1j"]
+size = Vector3(50, 100, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ukgsv"]
+size = Vector3(10, 100, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ukgsv"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.14901961)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8bj4q"]
+material = SubResource("StandardMaterial3D_ukgsv")
+size = Vector3(10, 100, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8bj4q"]
+size = Vector3(10, 100, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r3sm4"]
+size = Vector3(50, 100, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r3sm4"]
+material = SubResource("StandardMaterial3D_ukgsv")
+size = Vector3(50, 100, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aqvqo"]
+size = Vector3(50, 100, 10)
+
+[node name="BasicSpace" type="Node3D" unique_id=1734927314]
+script = ExtResource("1_ukgsv")
+numLilRocks = 50
+
+[node name="FlowArea" type="Area3D" parent="." unique_id=1188092071]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FlowArea" unique_id=1107772290]
+shape = SubResource("BoxShape3D_1yp1j")
+
+[node name="Walls" type="Node3D" parent="." unique_id=57944221]
+
+[node name="Wall1" type="Area3D" parent="Walls" unique_id=211294095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall1" unique_id=1946610917]
+shape = SubResource("BoxShape3D_ukgsv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall1" unique_id=2139088495]
+mesh = SubResource("BoxMesh_8bj4q")
+
+[node name="Wall2" type="Area3D" parent="Walls" unique_id=1542923633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall2" unique_id=476377716]
+shape = SubResource("BoxShape3D_8bj4q")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall2" unique_id=99812399]
+mesh = SubResource("BoxMesh_8bj4q")
+
+[node name="Wall3" type="Area3D" parent="Walls" unique_id=23578114]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall3" unique_id=923847130]
+shape = SubResource("BoxShape3D_r3sm4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall3" unique_id=1274705293]
+mesh = SubResource("BoxMesh_r3sm4")
+
+[node name="Wall4" type="Area3D" parent="Walls" unique_id=171021396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall4" unique_id=578211163]
+shape = SubResource("BoxShape3D_aqvqo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall4" unique_id=652649794]
+mesh = SubResource("BoxMesh_r3sm4")

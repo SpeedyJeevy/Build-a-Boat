@@ -97,7 +97,7 @@ func loadBallistas(l: int, w: int):
 		# Sets up newBallista
 		var newBallista = ballista.instantiate()
 		# Sets up the position of the newLilRock
-		newBallista.position = Vector3(randi_range(-l, l), randf_range(5, 25), randi_range(-w, w))
+		newBallista.position = Vector3(randi_range(-l, l), randf_range(5, 20), randi_range(-w, w))
 		
 		# Makes newLilRock a child of the scene
 		add_child(newBallista)

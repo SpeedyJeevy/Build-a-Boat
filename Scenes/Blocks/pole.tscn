@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://tw233k6t87il"]
+
+[ext_resource type="Script" uid="uid://bev1xwe6wx8vg" path="res://Scripts/test_block.gd" id="1_hi752"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tkqml"]
+height = 1.0
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hi752"]
+albedo_color = Color(0.39232534, 0.39232537, 0.39232534, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wjpx1"]
+material = SubResource("StandardMaterial3D_hi752")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ldwfa"]
+height = 1.05
+radius = 0.275
+
+[node name="Pole" type="CollisionShape3D" unique_id=1021266519 groups=["Blocks"]]
+shape = SubResource("CylinderShape3D_tkqml")
+script = ExtResource("1_hi752")
+health = 4.0
+maxHealth = 4.0
+endurance = 0.75
+luck = 3
+acidEndurance = 0.9
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=42661347]
+mesh = SubResource("CylinderMesh_wjpx1")
+
+[node name="DamageArea" type="Area3D" parent="." unique_id=2052375136 groups=["Blocks"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea" unique_id=1921964678]
+shape = SubResource("CylinderShape3D_ldwfa")
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
+[connection signal="body_exited" from="DamageArea" to="." method="_on_damage_area_body_exited"]

@@ -64,7 +64,26 @@ offset_right = 803.0
 offset_bottom = 298.0
 text = "  Number of Areas:  "
 
+[node name="Abilities" type="Button" parent="." unique_id=910848213]
+visible = false
+offset_left = 716.0
+offset_top = 114.0
+offset_right = 857.0
+offset_bottom = 145.0
+text = "  Toggle Abilities  "
+
+[node name="ChangeAreas" type="Button" parent="." unique_id=871097567]
+visible = false
+offset_left = 184.0
+offset_top = 284.0
+offset_right = 306.0
+offset_bottom = 315.0
+text = "  Adjust Areas  "
+
+[node name="AreaSM" type="Node2D" parent="." unique_id=41775374]
+
 [connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="LaunchButton" to="." method="_on_launch_button_pressed"]
 [connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="Change" to="." method="_on_change_pressed"]
+[connection signal="pressed" from="Abilities" to="." method="_on_abilities_pressed"]

@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var world = self.get_parent().get_parent()
+@onready var player = self.get_parent()
 @onready var numAreas = $NumAreas
 
 # Called when the node enters the scene tree for the first time.
@@ -34,3 +35,9 @@ func _on_change_pressed() -> void:
 	if int(numAreas.text) > -1:
 		world.numAreas = int(numAreas.text)
 	changeMenu()
+
+func _on_abilities_pressed() -> void:
+	var abs = $"../Abilities"
+	player.abilitiesOn = !player.abilitiesOn
+	if Globals.launched:
+		abs.visible = !abs.visible

@@ -6,11 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://djtx7xdvjhs37" path="res://Scenes/abilities.tscn" id="4_vgqql"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vigqh"]
+radius = 0.4
+height = 1.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e5alk"]
 albedo_color = Color(0, 0.7131188, 0.36542714, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mqyi5"]
+radius = 0.4
+height = 1.6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_nsk3r"]
 radius = 0.1
@@ -20,6 +24,14 @@ radius = 0.05
 height = 0.1
 radial_segments = 5
 rings = 5
+
+[sub_resource type="SphereMesh" id="SphereMesh_vgqql"]
+radius = 0.6
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkybt"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.3882353)
 
 [node name="Player" type="CharacterBody3D" unique_id=1803403783 groups=["player"]]
 script = ExtResource("1_v0iea")
@@ -78,3 +90,24 @@ text = "N/A"
 [node name="Settings" parent="." unique_id=1037159272 instance=ExtResource("3_6t5aa")]
 
 [node name="Abilities" parent="." unique_id=2064691941 instance=ExtResource("4_vgqql")]
+
+[node name="BuildTools" type="Node2D" parent="." unique_id=2143489663]
+
+[node name="Place" type="Label" parent="BuildTools" unique_id=647757306]
+offset_left = 304.0
+offset_top = 558.0
+offset_right = 416.0
+offset_bottom = 581.0
+text = "  Place Blocks  "
+
+[node name="LineTool" type="Label" parent="BuildTools" unique_id=213873876]
+offset_left = 675.0
+offset_top = 552.0
+offset_right = 762.0
+offset_bottom = 575.0
+text = "  Line Tool  "
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=949030150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("SphereMesh_vgqql")
+surface_material_override/0 = SubResource("StandardMaterial3D_fkybt")
